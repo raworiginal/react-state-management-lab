@@ -101,6 +101,17 @@ const App = () => {
 			console.log("You ain't got no money, take yo broke ass home.");
 		}
 	};
+
+	const handleRemoveFighter = (fighterObj) => {
+		const newTeam = team.filter((fighter) => {
+			return fighter.id !== fighterObj.id;
+		});
+		setTeam(newTeam);
+		const newZombieFighters = [...zombieFighters, fighterObj];
+		setZombieFighters(newZombieFighters);
+		setMoney(money + fighterObj.price);
+	};
+
 	const totalStrength = team.reduce((total, fighter) => {
 		return total + fighter.strength;
 	}, 0);
@@ -125,7 +136,9 @@ const App = () => {
 							<p>${price}</p>
 							<p>Strength: {strength}</p>
 							<p>Agility: {agility}</p>
-							<button>Remove</button>
+							<button onClick={() => handleRemoveFighter(fighter)}>
+								Remove
+							</button>
 						</li>
 					);
 				})}

@@ -86,10 +86,12 @@ const App = () => {
 			img: "https://pages.git.generalassemb.ly/modular-curriculum-all-courses/react-state-management-lab/assets/e41f26.png",
 		},
 	]);
+	const [isPaymentDeclined, setIsPaymentDeclined] = useState(false);
 
 	const handleAddFighter = (fighterObj) => {
 		console.log(fighterObj);
 		if (money >= fighterObj.price) {
+			setIsPaymentDeclined(false);
 			setMoney(money - fighterObj.price);
 			const newTeam = [...team, fighterObj];
 			setTeam(newTeam);
@@ -98,11 +100,12 @@ const App = () => {
 			});
 			setZombieFighters(newZombieFighters);
 		} else {
-			console.log("You ain't got no money, take yo broke ass home.");
+			setIsPaymentDeclined(true);
 		}
 	};
 
 	const handleRemoveFighter = (fighterObj) => {
+		setIsPaymentDeclined(false);
 		const newTeam = team.filter((fighter) => {
 			return fighter.id !== fighterObj.id;
 		});
@@ -144,6 +147,7 @@ const App = () => {
 				})}
 			</ul>
 			<h2>Current Money: ${money}</h2>
+			{isPaymentDeclined && <p>You cannot afford this fighter.</p>}
 			<ul>
 				{zombieFighters.map((fighter) => {
 					const { id, name, price, strength, agility, img } = fighter;
